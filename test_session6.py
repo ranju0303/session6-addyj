@@ -37,7 +37,7 @@ def test_readme_exists():
     assert os.path.isfile("README.md"), "README.md file missing!"
 
 def test_readme_contents():
-    readme = open("README.md", "r")
+    readme = open("README.md", "r", encoding="utf-8")
     readme_words = readme.read().split()
     readme.close()
     assert len(readme_words) >= 500, "Make your README.md file interesting! Add atleast 500 words"
@@ -96,41 +96,6 @@ def test_poker_2_player():
     for i in range(200):
         card_count, deal = session6.card_dealer(suits, cards)
         assert "Player" in session6.poker_2_player(card_count, deal), 'your poker game fails somewhere...'
-
-    #
-    #
-    # 'deck_generator_lmz',
-    # 'deck_generator',
-    # 'card_dealer',
-    # 'royalflush',
-    # 'straightflush',
-    # 'fourofakind',
-    # 'fullhouse',
-    # 'flush',
-    # 'straight',
-    # 'threeofakind',
-    # 'twopair',
-    # 'onepair',
-    # 'highcard',
-    # 'rank',
-    # 'poker_2_player',
-    # 'ValueError'
-
-# for i in range(200000):
-#
-
-
-## test case
-# def handy(cards='2♥ 2♦ 2♣ k♣ q♦'):
-#     hand = []
-#     for card in cards.split():
-#         f, s = card[:-1], card[-1]
-#         assert f in face, "Invalid: Don't understand card face %r" % f
-#         assert s in suit, "Invalid: Don't understand card suit %r" % s
-#         hand.append(Card(f, s))
-#     assert len(hand) == 5, "Invalid: Must be 5 cards in a hand, not %i" % len(hand)
-#     assert len(set(hand)) == 5, "Invalid: All cards in the hand must be unique %r" % cards
-#     return hand
 
 def test_doc_deck_lmz():
     assert bool(session6.deck_generator_lmz.__doc__), "No DocString - deck_generator_lmz"
