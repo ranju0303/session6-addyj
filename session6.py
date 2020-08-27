@@ -212,6 +212,26 @@ def highcard(hand: 'poker hand to check for') -> 'tuple':
     return 'high_card', sorted(allcards,
                                 key=lambda card: rank_card_list.index(card),
                                 reverse=True)
+def tiebreaker(rank:'same rank of both player', player_hand_tie: 'list of both player tiebreaker list') -> 'string':
+    '''
+    Determine who wins when both players have same rank hands.
+    returns the player won with what rank type.
+    '''
+    if not isinstance(player_hand_tie[0], list):
+        player_hand_tie[0] = [player_hand_tie[0]]
+    if not isinstance(player_hand_tie[1], list):
+        player_hand_tie[1] = [player_hand_tie[1]]
+
+    for card_A, card_B in zip(player_hand_tie[0], player_hand_tie[1]):
+        index_A = rank_card_list.index(card_A)
+        index_B = rank_card_list.index(card_B)
+        if index_A > index_B:
+            return f'YAY... Player A wins!!! by higher {rank}'
+        elif index_A < index_B:
+            return f'YAY... Player B wins!!! by higher {rank}'
+        else:
+            continue
+    return f'Draw Match between Player\'s by {rank}'
 
 def rank(rank_order: 'rank order list', hand: 'hand of player') -> 'tuple':
     '''
@@ -230,7 +250,7 @@ def rank(rank_order: 'rank order list', hand: 'hand of player') -> 'tuple':
 def poker_2_player(card_count : 'number of cards per player', deal: 'poker hands of each player') -> 'the winning player':
     '''
     Poker Game for 2 players with single deck of cards.
-    The function takes in the cards count which are distributed/dealt to
+    The function takes in the cards count which are distributed dealt to
     each player and the eacxt cards of the players.
     Based on the poker rules mentioned in README it decides which player has won.
     As the game has 3/4/5 cards in a hand per player per game the rank possibilities differ based on that.
@@ -248,6 +268,10 @@ def poker_2_player(card_count : 'number of cards per player', deal: 'poker hands
         raise ValueError("Cards dealt are innsufficient...")
     if card_count > 5:
         raise ValueError("Boss not playing poker i guess...")
+    if not (len(deal[0]) == len(deal[1])) and not len(deal[0]) == card_count:
+        raise ValueError("Numbers of players cards not according to the rules...")
+    if not (len(deal[0]) + len(deal[1]) == len(set(list(deal[0]) + list(deal[1])))):
+        raise ValueError("Players cards have duplicates according to the rules...")
 
     if card_count == 3:
         handrankorder = (royalflush, straightflush, flush, straight,
@@ -262,11 +286,10 @@ def poker_2_player(card_count : 'number of cards per player', deal: 'poker hands
     player_card_type = []
     for player_hand in deal:
         player_card_type.append(rank(handrankorder, list(player_hand)))
+    print(player_card_type)
     if win_order.index(player_card_type[0][0]) < win_order.index(player_card_type[1][0]):
         return f'YAY... Player A wins!!! by {player_card_type[0][0]}'
     elif win_order.index(player_card_type[0][0]) > win_order.index(player_card_type[1][0]):
         return f'YAY... Player B wins!!! by {player_card_type[1][0]}'
     elif win_order.index(player_card_type[0][0]) == win_order.index(player_card_type[1][0]):
-        return f'Draw Match between Player A and B by {player_card_type[0][0]} as not comparing rest of the cards...sorry...'
-    else:
-        return f'Draw Match between Player A and B by {player_card_type[0][0]}'
+        return tiebreaker(player_card_type[0][0], [player_card_type[0][1], player_card_type[1][1]])

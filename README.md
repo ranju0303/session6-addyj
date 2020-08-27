@@ -15,10 +15,10 @@
 ### We looked over :
 
 - Default Values
-- Docstrings & Annotations
+- Doc strings & Annotations
 - Lambda Expressions
 - Functional Introspection
-- Callables
+- Callable's
 - Map, Filter & Zip
 
 ---
@@ -58,9 +58,13 @@ Ties are broken by first comparing the pair and then moving on to the next three
 This hand is just five random cards.
 Ties are broken in pretty much the same way as with flushes and straights. Example: 9h 6c 5s 3d 2d
 
-**Disclaimer:** Have followed the normal poker rules. As we are comparing same count of cards, we can follow them , provided removing the hand possibilities which doesn't exists for hands with cards count less than5.
+**Logic Used:** Have followed the normal poker rules. As we are comparing same count of cards, we can follow them , provided removing the hand possibilities which doesn't exists for hands with cards count less than 5.
 
-Also have NOT IMPLEMENTED the tie break logic.
+- 3 card : ['royal_flush', 'straight_flush', 'flush', 'straight', 'three_of_a_kind', 'one_pair', 'high_card']
+- 4 card : ['royal_flush', 'straight_flush', 'four_of_a_kind', 'flush', 'straight', 'three_of_a_kind', 'two_pair', 'one_pair', 'high_card']
+- 5 card : ['royal_flush', 'straight_flush', 'four_of_a_kind', 'full_house', 'flush', 'straight', 'three_of_a_kind', 'two_pair', 'one_pair', 'high_card']
+
+The tie break logic is based on the higher card when the rank are same, if that are also equal rest of the cards are compared and which ever player has higher cards win.
 
 #### Function Description
 
@@ -77,22 +81,21 @@ Also have NOT IMPLEMENTED the tie break logic.
 11. **twopair:** Checks is the player's hand is two pair
 12. **onepair:** Checks is the player's hand is one pair
 13. **highcard:** Checks is the player's hand is high card 
-14. **rank:** Checks is the rank type of player's hand 
-15. **poker_2_player:** 
+14. **tiebreaker:** Returns the winning player based on the tie breaker list when both poker hands have same rank.
+15. **rank:** Returns is the rank type of player's hand and its tie breaker list
+16. **poker_2_player:** Poker function to find which poker hand won based on the possible ranks allowed for the respective card count. Raises Value Error if the card count is not correct or more than two players plays.
 
 ---
 
 #### Test Cases Description
-[INCOMPLETE]
----
-
 1. **test_readme_exists** : to assert if the code base consists a README file or not.
 2. **test_readme_contents** : to assert if the README file is explained thoroughly with enough wordings.
 3. **test_readme_proper_description** : to assert if README file is properly documented, i.e. all methods and function are explained.
 4. **test_readme_file_for_formatting** : to assert if the README file is properly formatted with headings.
 5. **test_indentations** : to assert if the code base is following PEP-8 code style formatting.
 6. **test_function_name_had_cap_letter** : to assert if the method/function names doesn't contains capital letters as per PEP-8 style convention.
-7. **test_function_count** : to assert if more than 25 test cases has been written in test file for qualean class.
+7. **test_function_count** : to assert if more than 25 test cases has been written in test file.
 8. **test_function_repeatations** : to assert if the test cases hasn't been repeated.
+9. Rest of the test cases are to check rank functions based on card count , doc strings, and function annotations. 
 
 ---
